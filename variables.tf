@@ -15,6 +15,7 @@ variable "context" {
     regex_substitute_chars = null
     tag_key_case = "title"
     tag_value_case = "lower"
+    random_string = null
   }
 
   validation {
@@ -44,7 +45,7 @@ variable "region" {
   description = "Environment name such as us-east-1, ap-west-1, eu-central-1"
 
   validation {
-    condition = var.region == null ? true : contains(["af-south-1", "ap-east-1", "ap-south-1", "ap-northeast-3", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "ca-central-1", "eu-central-1", "eu-west-1", "eu-west-2", "eu-south-1", "eu-west-3", "eu-north-1", "me-south-1", "sa-east-1"], var.region)
+    condition = var.region == null ? true : contains(["us-east-1", "us-east-2", "us-west-1", "us-west-2", "af-south-1", "ap-east-1", "ap-south-1", "ap-northeast-3", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "ca-central-1", "eu-central-1", "eu-west-1", "eu-west-2", "eu-south-1", "eu-west-3", "eu-north-1", "me-south-1", "sa-east-1"], var.region)
     error_message = "Only a valid AWS region names are expected here such as af-south-1."
   }
 }
@@ -76,7 +77,7 @@ variable "tags" {
 variable "additional_tags" {
   type = map(string)
   default = {}
-  description = "Additional Tags, tags which can be accessed by module.<name>.tags_as_list not added to <module.<name<.tags"
+  description = "Additional Tags, tags which can be accessed by module.<name>.tags_as_list not added to <module>.<name>.<tags>"
 }
 
 variable "delimiter" {
@@ -128,7 +129,7 @@ variable "tag_value_case" {
 
 variable "prefix_order" {
   type = list(string)
-  default = []
+  default = null
   description = <<-EOL
   The order of the Name tag
   Defaults to, `["environment", "project_name", "region", "name"]`
@@ -154,4 +155,13 @@ variable "attributes" {
   type = list(string)
   default = null
   description = "A list of attributes e.g. `private`, `shared`, `cost_center`"
+}
+
+variable "random_string" {
+  type = string
+  default = null
+  description = <<-EOL
+  A Random string, that will be appended to `id` in case of using `prefix_length_limit`
+  Using the default value which is `null`, the string will be created using the `random` terraform provider
+  EOL
 }

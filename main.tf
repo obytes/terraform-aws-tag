@@ -1,7 +1,7 @@
 locals {
   defaults = {
     prefix_order = ["environment", "project_name", "region", "name"]
-    regex_substitute_chars = "/[^a-zA-Z0-9]/"
+    regex_substitute_chars = "/[^(a-z)(A-Z)(0-9)$]/"
     delimiter = "-"
     replacement = ""
     prefix_length_limit = 0
@@ -19,6 +19,7 @@ locals {
     project_name = var.project_name == null ? var.context.project_name : var.project_name
     environment = var.environment == null ? var.context.environment : var.environment
     name = var.name == null ? var.context.name : var.name
+    attributes = compact(distinct(concat(coalesce(var.context.attributes, []), coalesce(var.attributes, []))))
     tags = merge(var.context.tags, var.tags)
     delimiter = var.delimiter == null ? var.context.delimiter : var.delimiter
     additional_tags = merge(var.additional_tags, var.context.additional_tags)
@@ -27,7 +28,7 @@ locals {
     regex_substitute_chars  = var.regex_substitute_chars == null ? var.context.regex_substitute_chars : var.regex_substitute_chars
     tag_key_case = var.tag_key_case == null ? var.context.tag_key_case : var.tag_key_case
     tag_value_case = var.tag_value_case == null ? var.context.tag_value_case : var.tag_value_case
-    attributes = compact(distinct(concat(coalesce(var.context.attributes, []), coalesce(var.attributes, []))))
+    random_string = var.random_string == null ? var.context.random_string : var.random_string
   }
 
   enabled = local.input.enabled
@@ -46,11 +47,11 @@ locals {
     local.tag_value_case == "title" ? title(lower(local.normalized_prefixes[k])) : local.tag_value_case == "upper" ? upper(local.normalized_prefixes[k]) : lower(local.normalized_prefixes[k])
   }
 
-  normalized_attributes = [ for l in local.input.attributes : replace(l, local.regex_substitute_chars,local.replacement )]
-  formatted_attributes = [ for l in local.normalized_attributes :
+  normalized_attributes = compact(distinct([ for l in local.input.attributes : replace(l, local.regex_substitute_chars,local.replacement )]))
+  formatted_attributes = compact(distinct([ for l in local.normalized_attributes :
           (
                   local.tag_value_case == "none" ? l : local.tag_value_case == "upper" ? upper(l) : local.tag_value_case == "title" ? title(l) : lower(l)
-          )]
+          )]))
 
   environment = local.formatted_prefix_case["environment"]
   project_name = local.formatted_prefix_case["project_name"]
@@ -90,24 +91,27 @@ locals {
 
   id_truncated_length_limit = local.prefix_length_limit - (local.delimiter_length + local.random_length)
   id_truncated = local.id_truncated_length_limit <=0 ? "" : "${trimsuffix(substr(local.id_full, 0, local.id_truncated_length_limit), local.delimiter)}${local.delimiter}"
-  id_random = random_string.this.result
-  id_short = substr("${local.id_truncated}${local.id_random}",0 ,local.prefix_length_limit )
+  random_string = local.input.random_string == null ? random_string.this.result : local.input.random_string
+  id_random_case = local.tag_value_case == "none" ? local.random_string : local.tag_value_case == "upper" ? upper(local.random_string) : local.tag_value_case == "title" ? title(local.random_string) : lower(local.random_string)
+  id_short = substr("${local.id_truncated}${local.id_random_case}",0 ,local.prefix_length_limit )
   id = local.prefix_length_limit != 0 && length(local.id_full) > local.prefix_length_limit ? local.id_short : local.id_full
 
     # Context of this label to pass to other label modules
   outputs = {
     enabled             = local.enabled
-    name                = local.name
-    project_name           = local.project_name
     environment         = local.environment
+    project_name           = local.project_name
     region               = local.region
+    name                = local.name
     delimiter           = local.delimiter
+    attributes  = local.formatted_attributes
     tags                = local.tags
     additional_tag  = local.additional_tag
     prefix_order         = local.prefix_order
-    regex_substitute_chars = local.regex_substitute_chars
     prefix_length_limit     = local.prefix_length_limit
+    regex_substitute_chars = local.regex_substitute_chars
     tag_key_case      = local.tag_key_case
     tag_value_case    = local.tag_value_case
+    random_string = local.id_random_case
   }
 }
