@@ -62,3 +62,8 @@ output "context" {
   value = local.input
   description = "A context to be used as an input for other modules"
 }
+
+output "random_string" {
+  value = random_string.this.result
+  description = "A random string, used in `id` and `id_short` in case of setting `prefix_lenght_limit`"
+}
