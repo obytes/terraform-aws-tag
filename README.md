@@ -1,7 +1,7 @@
 ## Summary
 A Terraform open-source module to automate the creation of `tags`, the `Name` key  and other attributes across resources in AWS, the `Name` prefix is based on a customizable order passed by the `prefix_order` variable with a default value of `["enviroemnt", "project_name", "region", "name]` and a configurable `delimiter` variable with value of `-`.
 
-### Features
+## Features
 
 The module supports the following:
  - Optionally limiting the `id` variable length to a specific number of chars by modifying the `prefix_lenght_limit` variable, defaulted to 0 which means no limit.
@@ -11,7 +11,99 @@ The module supports the following:
  - A validation mechanism to validate some input variables e.g. `tag_key_case`, `tag_value_case`, `region`
  - Optional `attributes` which will be added automatically to `tags` variable.
 
+## Usage
+### Example 1
+```hcl
+module "label" {
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.0"
+  environment = "dev"
+  project_name = "obytes"
+  region = "me-south-1"
+  delimiter = "+"
+  attributes  = ["private"]
+  enabled = true
+  prefix_length_limit = 10
+}
+```
+The above example will generate the below output that can be passed to another `label` module to create a new `id` that has the base values used on `label_1` module 
 
+```hcl
+context = {
+  "additional_tags" = {}
+  "attributes" = [
+    "private",
+  ]
+  "delimiter" = "+"
+  "enabled" = "true"
+  "environment" = "dev"
+  "prefix_length_limit" = 10
+  "prefix_order" = [
+    "environment",
+    "project_name",
+    "region",
+    "name",
+  ]
+  "project_name" = "obytes"
+  "region" = "me-south-1"
+  "tag_key_case" = "title"
+  "tag_value_case" = "lower"
+  "tags" = {}
+}
+id = dev+n4rnkc
+tags = {
+  "Attributes" = "private"
+  "Environment" = "dev"
+  "Name" = "dev+n4rnkc"
+  "Project_name" = "obytes"
+  "Region" = "mesouth1"
+}
+```
+### Example 2
+
+```hcl
+module "label2" {
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.0"
+  context = module.label1.context
+  name = "label2"
+  environment = "prd"
+  delimiter = "-"
+  random_string = module.label1.random_string
+}
+```
+This would generate the below output, as you can see we are using the same values from `label` module such as `attributes`, `prefix_length_limit`, `random_string` and changing `delimiter` and `region`
+```hcl
+context_label2 = {
+  "additional_tags" = {}
+  "attributes" = [
+    "private",
+  ]
+  "delimiter" = "-"
+  "enabled" = "true"
+  "environment" = "prd"
+  "name" = "label2"
+  "prefix_length_limit" = 10
+  "prefix_order" = [
+    "environment",
+    "project_name",
+    "region",
+    "name",
+  ]
+  "project_name" = "obytes"
+  "random_string" = "n4rnkc98ht4g"
+  "region" = "us-east-1"
+  "tag_key_case" = "title"
+  "tag_value_case" = "lower"
+  "tags" = {}
+}
+id_label2 = prd-n4rnkc
+tags_label2 = {
+  "Attributes" = "private"
+  "Environment" = "prd"
+  "Name" = "prd-n4rnkc"
+  "Project_name" = "obytes"
+  "Region" = "useast1"
+}
+```
 
 ## Requirements
 
