@@ -1,5 +1,5 @@
 ## Summary
-A Terraform open-source module to automate the creation of `tags`, the `Name` key  and other attributes across resources in AWS, the `Name` prefix is based on a customizable order passed by the `prefix_order` variable with a default value of `["enviroemnt", "project_name", "region", "name]` and a configurable `delimiter` variable with value of `-`.
+A Terraform open-source module to automate the creation of `tags`, the `Name` key  and other attributes across resources in AWS, the `Name` prefix is based on a customizable order passed by the `prefix_order` variable with a default value of `["enviroemnt", "project_name", "region", "name", "attributes"]` and a configurable `delimiter` variable with value of `-`.
 
 ## Features
 
@@ -9,13 +9,13 @@ The module supports the following:
  - A random string will be created using the `random` provider that will be used in case of creating a truncated id, `prefix_legnth_limit` !=0.
  - Supporting a configurable `regex_substitute_chars` variable which will replace any non-alphanumeric chars passed to `enviroment`, `project_name`, `region` and, `name`, defaulted to `"/[^(a-z)(A-Z)(0-9)$]/"`.
  - A validation mechanism to validate some input variables e.g. `tag_key_case`, `tag_value_case`, `region`
- - Optional `attributes` which will be added automatically to `tags` variable.
+ - Optional `attributes` which will be added automatically to `tags` variable and `id`
 
 ## Usage
 ### Example 1
 ```hcl
 module "label" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.0"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.1"
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
@@ -62,7 +62,7 @@ tags = {
 
 ```hcl
 module "label2" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.0"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.1"
   context = module.label1.context
   name = "label2"
   environment = "prd"

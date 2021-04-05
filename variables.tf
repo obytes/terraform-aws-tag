@@ -10,12 +10,13 @@ variable "context" {
     attributes = null
     tags = {}
     additional_tags = {}
-    prefix_order = ["environment", "project_name", "region", "name"]
+    prefix_order = ["environment", "project_name", "region", "name", "attributes"]
     prefix_length_limit = 0
     regex_substitute_chars = null
     tag_key_case = "title"
     tag_value_case = "lower"
     random_string = null
+    attributes = []
   }
 
   validation {

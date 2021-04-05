@@ -83,6 +83,7 @@ locals {
     project_name = local.project_name
     region = local.region
     name = local.name
+    attributes = join(local.delimiter, local.formatted_attributes)
   }
 
   labels = [for l in local.prefix_order : local.id_structure[l] if length(local.id_structure[l]) > 0]
