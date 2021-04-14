@@ -15,7 +15,7 @@ The module supports the following:
 ### Example 1
 ```hcl
 module "label" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.3"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.4"
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
@@ -62,7 +62,7 @@ tags = {
 
 ```hcl
 module "label2" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.3"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.4"
   context = module.label1.context
   name = "label2"
   environment = "prd"
