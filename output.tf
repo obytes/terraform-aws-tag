@@ -64,6 +64,6 @@ output "context" {
 }
 
 output "random_string" {
-  value       = random_string.this.result
+  value       = join("", random_string.this.*.result)
   description = "A random string, used in `id` and `id_short` in case of setting `prefix_lenght_limit`"
 }
