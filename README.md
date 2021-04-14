@@ -15,7 +15,7 @@ The module supports the following:
 ### Example 1
 ```hcl
 module "label" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.1"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.2"
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
@@ -62,7 +62,7 @@ tags = {
 
 ```hcl
 module "label2" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.1"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.2"
   context = module.label1.context
   name = "label2"
   environment = "prd"
@@ -70,7 +70,8 @@ module "label2" {
   random_string = module.label1.random_string
 }
 ```
-This would generate the below output, as you can see we are using the same values from `label` module such as `attributes`, `prefix_length_limit`, `random_string` and changing `delimiter` and `region`
+This would generate the below output, as you can see we are using the same values from `label` module such as `attributes`, `prefix_length_limit`, `random_string` while changing `delimiter` and `region`
+By passing the `random_string=model.label1.random_string`, we are forcing module.label2 not to create a random_string resource.
 ```hcl
 context_label2 = {
   "additional_tags" = {}

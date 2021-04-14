@@ -1,6 +1,7 @@
 resource "random_string" "this" {
-  length = 12
-  special = false
+  count       = var.random_string != null ? 0 : 1
+  length      = 12
+  special     = false
   min_numeric = 2
-  upper = false
+  upper       = false
 }
