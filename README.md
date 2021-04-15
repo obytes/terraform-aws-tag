@@ -15,7 +15,7 @@ The module supports the following:
 ### Example 1
 ```hcl
 module "label" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.4"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.5"
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
@@ -58,53 +58,7 @@ tags = {
   "Region" = "mesouth1"
 }
 ```
-### Example 2
-
-```hcl
-module "label2" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.4"
-  context = module.label1.context
-  name = "label2"
-  environment = "prd"
-  delimiter = "-"
-  random_string = module.label1.random_string
-}
-```
-This would generate the below output, as you can see we are using the same values from `label` module such as `attributes`, `prefix_length_limit`, `random_string` while changing `delimiter` and `region`
-By passing the `random_string=model.label1.random_string`, we are forcing module.label2 not to create a random_string resource.
-```hcl
-context_label2 = {
-  "additional_tags" = {}
-  "attributes" = [
-    "private",
-  ]
-  "delimiter" = "-"
-  "enabled" = "true"
-  "environment" = "prd"
-  "name" = "label2"
-  "prefix_length_limit" = 10
-  "prefix_order" = [
-    "environment",
-    "project_name",
-    "region",
-    "name",
-  ]
-  "project_name" = "obytes"
-  "random_string" = "n4rnkc98ht4g"
-  "region" = "us-east-1"
-  "tag_key_case" = "title"
-  "tag_value_case" = "lower"
-  "tags" = {}
-}
-id_label2 = prd-n4rnkc
-tags_label2 = {
-  "Attributes" = "private"
-  "Environment" = "prd"
-  "Name" = "prd-n4rnkc"
-  "Project_name" = "obytes"
-  "Region" = "useast1"
-}
-```
+Check the example folder for more details scenarios.
 
 ## Requirements
 
