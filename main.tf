@@ -92,9 +92,8 @@ locals {
 
   id_truncated_length_limit = local.prefix_length_limit - (local.delimiter_length + local.random_length)
   id_truncated              = local.id_truncated_length_limit <= 0 ? "" : "${trimsuffix(substr(local.id_full, 0, local.id_truncated_length_limit), local.delimiter)}${local.delimiter}"
-  random_string             = local.input.random_string == null ? random_string.this.result : local.input.random_string
-  id_random_case            = local.tag_value_case == "none" ? local.random_string : local.tag_value_case == "upper" ? upper(local.random_string) : local.tag_value_case == "title" ? title(local.random_string) : lower(local.random_string)
-  id_short                  = substr("${local.id_truncated}${local.id_random_case}", 0, local.prefix_length_limit)
+  random_string             = local.input.random_string == null && local.prefix_length_limit != null ? try(element(random_string.this.*.result,0 ), null ) : local.input.random_string
+  id_short                  = local.random_string == null ? substr(local.id_truncated, 0, local.prefix_length_limit) : substr("${local.id_truncated}${local.random_string}", 0, local.prefix_length_limit)
   id                        = local.prefix_length_limit != 0 && length(local.id_full) > local.prefix_length_limit ? local.id_short : local.id_full
 
   # Context of this label to pass to other label modules
@@ -113,6 +112,6 @@ locals {
     regex_substitute_chars = local.regex_substitute_chars
     tag_key_case           = local.tag_key_case
     tag_value_case         = local.tag_value_case
-    random_string          = local.id_random_case
+    random_string          = local.random_string
   }
 }

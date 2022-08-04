@@ -5,5 +5,5 @@ module "label3" {
   environment = "prd"
   region = "us-east-1"
   delimiter = "-"
-  random_string = module.label1.random_string
+  prefix_length_limit = 12
 }
