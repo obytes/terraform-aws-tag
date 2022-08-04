@@ -3,9 +3,8 @@ module "label1" {
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
-  delimiter = "+"
+  delimiter = "_"
   attributes  = ["private"]
   enabled = true
-  prefix_length_limit = 10
 }
 
