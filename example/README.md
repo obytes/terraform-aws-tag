@@ -1,5 +1,5 @@
 ### Example1
-This is a basic example where you the `id` is created in the form of `["environment", "project_name", "region", "attributes"]` with a `prefix_length_limit` is 10, a random string resource will be created and will be appended to the `id` attribute, the random_length is fixed to 5 where the total `id` is limited to 10.  
+This is a basic example where  the `id` is created in the form of `["environment", "project_name", "region", "attributes"]` with a `prefix_length_limit` is 10, a random string resource will be created and will be appended to the `id` attribute, the random_length is fixed to 5 where the total `id` is limited to 10.  
 
 ```hcl
 Outputs:

@@ -1,10 +1,12 @@
 module "label1" {
   source = "../"
-  environment = "dev"
-  project_name = "obytes"
+  environment = "stg"
+  project_name = "pto"
   region = "me-south-1"
-  delimiter = "_"
+  delimiter = "-"
   attributes  = ["private"]
   enabled = true
+  prefix_length_limit = 12
+  name ="vpc"
 }
 
