@@ -1,6 +1,6 @@
 locals {
   defaults = {
-    prefix_order           = ["environment", "project_name", "region", "name"]
+    prefix_order           = ["environment", "project_name", "name", "region"]
     regex_substitute_chars = "/[^(a-z)(A-Z)(0-9)$]/"
     delimiter              = "-"
     replacement            = ""
@@ -94,7 +94,7 @@ locals {
   id_truncated              = local.id_truncated_length_limit <= 0 ? "" : "${trimsuffix(substr(local.id_full, 0, local.id_truncated_length_limit), local.delimiter)}${local.delimiter}"
   random_string             = local.input.random_string == null && local.prefix_length_limit != null ? try(element(random_string.this.*.result,0 ), null ) : local.input.random_string
   id_short                  = local.random_string == null ? substr(local.id_truncated, 0, local.prefix_length_limit) : substr("${local.id_truncated}${local.random_string}", 0, local.prefix_length_limit)
-  id                        = local.prefix_length_limit != 0 && length(local.id_full) > local.prefix_length_limit ? local.id_short : local.id_full
+  id                        = local.prefix_length_limit != 0  ? local.id_short : local.id_full
 
   # Context of this label to pass to other label modules
   outputs = {
