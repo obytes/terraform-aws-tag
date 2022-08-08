@@ -15,7 +15,7 @@ The module supports the following:
 ### Example 1
 ```hcl
 module "label" {
-  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.7"
+  source = "github.com/obytes/terraform-aws-tag.git?ref=v1.0.8"
   environment = "dev"
   project_name = "obytes"
   region = "me-south-1"
