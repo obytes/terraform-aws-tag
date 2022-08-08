@@ -23,9 +23,9 @@ output "project_name" {
   description = "The project name or organization name, could be fullName or abbreviation such as `ex`"
 }
 
-output "name" {
-  value       = local.name
-  description = "The name of the service/solution such as vpc, ec2"
+output "company_name" {
+  value       = local.company_name
+  description = "The name of the company or client"
 }
 
 output "tags" {

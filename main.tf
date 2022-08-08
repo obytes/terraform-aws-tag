@@ -1,11 +1,11 @@
 locals {
   defaults = {
-    prefix_order           = ["environment", "project_name", "name", "region"]
+    prefix_order           = ["environment", "project_name", "company_name", "region"]
     regex_substitute_chars = "/[^(a-z)(A-Z)(0-9)$]/"
     delimiter              = "-"
     replacement            = ""
     prefix_length_limit    = 0
-    random_length          = 5
+    random_length          = 4
     tag_key_case           = "title"
     tag_value_case         = "lower"
   }
@@ -18,7 +18,7 @@ locals {
     region                 = var.region == null ? var.context.region : var.region
     project_name           = var.project_name == null ? var.context.project_name : var.project_name
     environment            = var.environment == null ? var.context.environment : var.environment
-    name                   = var.name == null ? var.context.name : var.name
+    company_name           = var.company_name == null ? var.context.company_name : var.company_name
     attributes             = compact(distinct(concat(coalesce(var.context.attributes, []), coalesce(var.attributes, []))))
     tags                   = merge(var.context.tags, var.tags)
     delimiter              = var.delimiter == null ? var.context.delimiter : var.delimiter
@@ -35,7 +35,7 @@ locals {
   regex_substitute_chars = coalesce(local.input.regex_substitute_chars, local.defaults.regex_substitute_chars)
 
   # normalizing prefixes
-  string_prefix_names = ["environment", "project_name", "region", "name"]
+  string_prefix_names = ["environment", "project_name", "region", "company_name"]
   normalized_prefixes = {
     for k in local.string_prefix_names : k => local.input[k] == null ? "" : replace(local.input[k], local.regex_substitute_chars, local.replacement)
   }
@@ -56,7 +56,7 @@ locals {
   environment  = local.formatted_prefix_case["environment"]
   project_name = local.formatted_prefix_case["project_name"]
   region       = local.formatted_prefix_case["region"]
-  name         = local.formatted_prefix_case["name"]
+  company_name = substr(local.formatted_prefix_case["company_name"], 0, 3)
 
   delimiter           = local.input.delimiter == null ? local.defaults.delimiter : local.input.delimiter
   prefix_length_limit = local.input.prefix_length_limit == null ? local.defaults.prefix_length_limit : coalesce(local.input.prefix_length_limit, local.defaults.prefix_length_limit)
@@ -64,7 +64,7 @@ locals {
 
   additional_tag = merge(var.context.additional_tags, var.additional_tags)
   tags_structure = {
-    name         = local.id
+    company_name = local.company_name
     region       = local.region
     project_name = local.project_name
     environment  = local.environment
@@ -82,7 +82,7 @@ locals {
     environment  = local.environment
     project_name = local.project_name
     region       = local.region
-    name         = local.name
+    company_name = local.company_name
     attributes   = join(local.delimiter, local.formatted_attributes)
   }
 
@@ -102,7 +102,7 @@ locals {
     environment            = local.environment
     project_name           = local.project_name
     region                 = local.region
-    name                   = local.name
+    company_name           = local.company_name
     delimiter              = local.delimiter
     attributes             = local.formatted_attributes
     tags                   = local.tags

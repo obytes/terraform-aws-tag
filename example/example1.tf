@@ -1,12 +1,13 @@
 module "label1" {
   source = "../"
-  environment = "stg"
+  environment = "dev"
   project_name = "pto"
-  region = "me-south-1"
+  company_name = "keepers"
+  region = "eu-west-1"
+  prefix_order = ["company_name", "environment", "project_name", "region"]
   delimiter = "-"
   attributes  = ["private"]
   enabled = true
   prefix_length_limit = 12
-  name ="vpc"
 }
 
