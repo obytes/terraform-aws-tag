@@ -5,12 +5,12 @@ variable "context" {
     environment            = null
     project_name           = null
     region                 = null
-    name                   = null
+    company_name           = null
     delimiter              = null
     attributes             = null
     tags                   = {}
     additional_tags        = {}
-    prefix_order           = ["environment", "project_name", "name", "region", "attributes"]
+    prefix_order           = ["environment", "project_name", "company_name", "region", "attributes"]
     prefix_length_limit    = 0
     regex_substitute_chars = null
     tag_key_case           = "title"
@@ -57,16 +57,16 @@ variable "project_name" {
   description = "The project name or organization name, could be fullName or abbreviation such as `ex`"
 }
 
+variable "company_name" {
+  type        = string
+  default     = null
+  description = "The company name or client name, could be fullName or abbreviation such as `ex`"
+}
+
 variable "environment" {
   type        = string
   default     = null
   description = "Environment, the environment name such as 'stg', 'prd', 'dev'"
-}
-
-variable "name" {
-  type        = string
-  default     = null
-  description = "The name of the service/solution such as vpc, ec2"
 }
 
 variable "tags" {

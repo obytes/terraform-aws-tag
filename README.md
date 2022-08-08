@@ -89,11 +89,11 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_tags"></a> [additional\_tags](#input\_additional\_tags) | Additional Tags, tags which can be accessed by module.<name>.tags\_as\_list not added to <module>.<name>.<tags> | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | A list of attributes e.g. `private`, `shared`, `cost_center` | `list(string)` | `null` | no |
-| <a name="input_context"></a> [context](#input\_context) | n/a | `any` | <pre>{<br>  "additional_tags": {},<br>  "attributes": null,<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "name": null,<br>  "prefix_length_limit": 0,<br>  "prefix_order": [<br>    "environment",<br>    "project_name",<br>    "region",<br>    "name"<br>  ],<br>  "project_name": null,<br>  "random_string": null,<br>  "regex_substitute_chars": null,<br>  "region": null,<br>  "tag_key_case": "title",<br>  "tag_value_case": "lower",<br>  "tags": {}<br>}</pre> | no |
+| <a name="input_company_name"></a> [company\_name](#input\_company\_name) | The company name or client name, could be fullName or abbreviation such as `ex` | `string` | `null` | no |
+| <a name="input_context"></a> [context](#input\_context) | n/a | `any` | <pre>{<br>  "additional_tags": {},<br>  "attributes": [],<br>  "company_name": null,<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "prefix_length_limit": 0,<br>  "prefix_order": [<br>    "environment",<br>    "project_name",<br>    "company_name",<br>    "region",<br>    "attributes"<br>  ],<br>  "project_name": null,<br>  "random_string": null,<br>  "regex_substitute_chars": null,<br>  "region": null,<br>  "tag_key_case": "title",<br>  "tag_value_case": "lower",<br>  "tags": {}<br>}</pre> | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `project_name`, `environment`, `region` and, `name`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | A boolean to enable or disable tagging/labeling module | `string` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment, the environment name such as 'stg', 'prd', 'dev' | `string` | `null` | no |
-| <a name="input_name"></a> [name](#input\_name) | The name of the service/solution such as vpc, ec2 | `string` | `null` | no |
 | <a name="input_prefix_length_limit"></a> [prefix\_length\_limit](#input\_prefix\_length\_limit) | The minimum number of chars required for the id/Name desired (minimum =7)<br>Set it to `0` for unlimited number of chars, `full_id` | `number` | `null` | no |
 | <a name="input_prefix_order"></a> [prefix\_order](#input\_prefix\_order) | The order of the Name tag<br>Defaults to, `["environment", "project_name", "region", "name"]`<br>at least one should be provided | `list(string)` | `null` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The project name or organization name, could be fullName or abbreviation such as `ex` | `string` | `null` | no |
@@ -110,13 +110,13 @@ No modules.
 |------|-------------|
 | <a name="output_additional_tags"></a> [additional\_tags](#output\_additional\_tags) | Additional Tags, tags which can be accessed by module.<name>.tags\_as\_list not added to <module>.<name>.<tags> |
 | <a name="output_attributes"></a> [attributes](#output\_attributes) | A list of attributes e.g. `private`, `shared`, `cost_center` |
+| <a name="output_company_name"></a> [company\_name](#output\_company\_name) | The name of the company or client |
 | <a name="output_context"></a> [context](#output\_context) | A context to be used as an input for other modules |
 | <a name="output_delimiter"></a> [delimiter](#output\_delimiter) | Delimiter to be used between `project_name`, `environment`, `region` and, `name`. |
 | <a name="output_enabled"></a> [enabled](#output\_enabled) | A boolean to enable or disable tagging/labeling module |
 | <a name="output_environment"></a> [environment](#output\_environment) | Environment name passed to module such as us-east-1, ap-west-1, eu-central-1 |
 | <a name="output_id"></a> [id](#output\_id) | ID, restricted to `prefix_length_limit` if set otherwise, full ID |
 | <a name="output_id_full"></a> [id\_full](#output\_id\_full) | Full ID, not restricted to prefix\_length\_limit |
-| <a name="output_name"></a> [name](#output\_name) | The name of the service/solution such as vpc, ec2 |
 | <a name="output_prefix_order"></a> [prefix\_order](#output\_prefix\_order) | an ordered list of strings that forms the `ID` attribute |
 | <a name="output_project_name"></a> [project\_name](#output\_project\_name) | The project name or organization name, could be fullName or abbreviation such as `ex` |
 | <a name="output_random_string"></a> [random\_string](#output\_random\_string) | A random string, used in `id` and `id_short` in case of setting `prefix_lenght_limit` |

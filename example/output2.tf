@@ -23,8 +23,8 @@ output "project_name_label3" {
   description = "The project name or organization name, could be fullName or abbreviation such as `ex`"
 }
 
-output "name_label3" {
-  value       = module.label3.name
+output "company_name_label3" {
+  value       = module.label3.company_name
   description = "The name of the service/solution such as vpc, ec2"
 }
 
